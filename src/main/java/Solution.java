@@ -16,11 +16,11 @@ public class Solution {
     }
 
     public static int maxSubArrayBetter(int[] A) {
-        int maxSubArr=A[0];
-        int maxEndingHere=A[0];
-        for (int i=1;i<A.length;++i){
-            maxEndingHere= Math.max(maxEndingHere+A[i],A[i]);
-            maxSubArr=Math.max(maxSubArr, maxEndingHere);
+        int maxSubArr = A[0];
+        int maxEndingHere = A[0];
+        for (int i = 1; i < A.length; ++i) {
+            maxEndingHere = Math.max(maxEndingHere + A[i], A[i]);
+            maxSubArr = Math.max(maxSubArr, maxEndingHere);
         }
         return maxSubArr;
     }
