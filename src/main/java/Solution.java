@@ -71,6 +71,37 @@ public class Solution {
         return topK;
     }
 
+    public static int bstHeight(int[] a, int i) {
+        if (a[i+1] == -1 && a[i+2] == -1) return 1;
+        else {
+            return 1 + Math.max(bstHeight(a, a[i+1]), bstHeight(a,a[i+2]));
+        }
+    }
+
+    static int[] A = {4,2,3,0,1};
+    static int n = 5;
+
+    public static void loop1(int i) {
+        int index = A[i];
+        int temp = A[index];
+        A[index] = index;
+        A[i] = temp;
+        if (i == temp && i == (n-1)) { //done
+            return;
+        } else if (i == temp) {
+            A[i] = temp;
+            ++i;
+        }
+        loop1(i);
+    }
+
+    public static void printArr() {
+        for (int i=0; i < n; ++i) {
+            System.out.print(A[i] + " ");
+        }
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         int[] nums = {-2,1,-3,4,-1,2,1,-5,4};
         int[] otherNums = {3,2,3,1,2,4,5,5,6,7,7,8,2,3,1,1,1,10,11,5,6,2,4,7,8,5,6};
@@ -80,5 +111,12 @@ public class Solution {
         System.out.println(containsDuplicate(nums));
         System.out.println(reverseString("hello"));
         List<Integer> top = topKFrequent(otherNums,10);
+
+        int[] bst = {77,3,6,22,-1,-1,-8,9,12,-36,-1,-1,999,-1,-1};
+        int[] bst = {77,-1,-1};
+        System.out.println(bstHeight(bst, 0));
+        printArr();
+        loop1(0);
+        printArr();
     }
 }
