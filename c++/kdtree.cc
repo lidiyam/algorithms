@@ -27,7 +27,7 @@ struct KDTree {
 	}
 };
 
-
+// comparisons
 bool byX(pair<int,int> p1, pair<int,int> p2) {
 	return (p1.first < p2.first);
 }
@@ -36,15 +36,17 @@ bool byY(pair<int,int> p1, pair<int,int> p2) {
 	return (p1.second < p2.second);
 }
 
+
 // construct a kd-tree for dimension 2
 KDNode* buildKDTree(vector<pair<int,int>> points, bool splitX = true) {
 	if (points.size() == 0) return nullptr;
-	if (splitX) {
-		sort(points.begin(),points.end(),byX);
-	} else {
-		sort(points.begin(),points.end(),byY);
-	}
 	int median = points.size() / 2;
+	if (splitX) {
+		nth_element(points.begin(), points.begin()+median, points.end(), byX);
+	} else {
+		nth_element(points.begin(), points.begin()+median, points.end(), byY);
+	}
+
 	KDNode *root = new KDNode(points[median]);
 
 	vector<pair<int,int>> leftPoints(points.begin(), points.begin() + median);
@@ -54,12 +56,14 @@ KDNode* buildKDTree(vector<pair<int,int>> points, bool splitX = true) {
 	return root;
 }
 
+
 void preOrder(KDNode *n, ostringstream &out) {
 	if (n == nullptr) return;
 	out << n->x << " " << n->y << " ";
 	preOrder(n->left,out);
 	preOrder(n->right,out);
 }
+
 
 int main() {
 	// read in 2n + 1 ints
