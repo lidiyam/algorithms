@@ -1,29 +1,18 @@
-import sys
-import os
-import math
-
 from python.utils import TreeNode
-
-
-def traverse(queuqe):
-    if queuqe.__len__() == 1:
-        return
-    root = queuqe.pop(0)
-    if root.left is not None:
-        queuqe.append(root.left)
-    if root.right is not None:
-        queuqe.append(root.right)
-    print root.val
-    return traverse(queuqe)
 
 
 def level_order_traversal(root):
     queue = []
     if root is not None:
         queue.append(root)
-        traverse(queue)
-    else:
-        return
+
+    while len(queue) != 0:
+        root = queue.pop()
+        if root.left is not None:
+            queue.append(root.left)
+        if root.right is not None:
+            queue.append(root.right)
+        print root.val
 
 
 if __name__ == '__main__':
