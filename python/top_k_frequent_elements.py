@@ -7,6 +7,18 @@ import heapq
 
 class Solution(object):
 
+    def topKFrequentSlow(self, nums, k):
+        nums = sorted(nums)
+        prev = nums[0]
+        lst = [prev]
+        k = k - 1
+        for i in range(1, len(nums)):
+            if k > 0 and nums[i] != prev:
+                prev = nums[i]
+                lst.append(prev)
+                k -= 1
+        return lst
+
     def topKFrequent(self, nums, k):
         freq_list = []
         counts = collections.defaultdict(int)
