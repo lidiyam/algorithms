@@ -6,6 +6,7 @@ find the maximum value you can generate from items where the sum of the weights 
 
 class Solution(object):
 
+    # bottom up approach
     def knapsack(self, vals, weights, maxWeight):
         T = []
         for x in range(len(vals)+1):
