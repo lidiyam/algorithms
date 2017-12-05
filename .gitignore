@@ -3,6 +3,12 @@
 *.class
 *.log
 
+.classpath
+.project
+.settings/
+.vscode/
+
+
 # Python
 __pycache__/
 *.pyc

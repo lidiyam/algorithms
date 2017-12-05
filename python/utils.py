@@ -13,8 +13,9 @@ class ListNode(object):
 
 
 class LinkedList(object):
-    def __init__(self):
-        self.head = None
+
+    def __init__(self, head=None):
+        self.head = head
 
     def append(self, node):
         temp = self.head
@@ -27,10 +28,11 @@ class LinkedList(object):
             raise Exception
         start = ListNode(arr.pop(0))
         head = start
+        curr = head
         while arr:
-            head.next = ListNode(arr.pop(0))
-            head = head.next
-        self.head = start
+            curr.next = ListNode(arr.pop(0))
+            curr = curr.next
+        self.head = head
 
     def printLL(self):
         temp = self.head
