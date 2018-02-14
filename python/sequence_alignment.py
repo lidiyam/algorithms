@@ -36,10 +36,10 @@ def dp_alignmt_reconst(A, X, Y, gap, match):
 
 
 if __name__ == '__main__':
-	X = raw_input("")
-	Y = raw_input("")
-	gap = int(raw_input(""))
-	match_v = int(raw_input(""))
+	X = raw_input()
+	Y = raw_input()
+	gap = int(raw_input())
+	match_v = int(raw_input())
 
 	#X = 'AGGAATT'
 	#Y = 'AGGCTT'
