@@ -1,21 +1,20 @@
 
 def topologicalSort(G):
 	# run DFS, order by decreasing finish time
-	Gr = G
 	res = []
 	n = len(G)
 	visited = set()
 
 	def dfs(u):
 		for v in G[u]:
-			if v not in visited: # not visited
+			if v not in visited:
 				dfs(v)
 		visited.add(u)
-		del Gr[u]
+		del G[u]
 		res.insert(0, u)
 
 	while len(visited) != n:
-		root = Gr.keys()[0]
+		root = G.keys()[0]
 		if root not in visited:
 			dfs(root)
 
