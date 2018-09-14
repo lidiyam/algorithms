@@ -27,34 +27,37 @@
 # Output: "22:21"
 
 
-class Solution(object):
+class Solution(object):        
     def nextClosestTime(self, time):
-    	max_val = [2, 3, 0, 5, 9]
-    	nums = set()
-    	for c in time:
-    		if c == ':': continue
-    		nums.add(int(c))
-
-    	digits = sorted(nums)
-    	min_digit = str(digits[0])
-    	i = 4
-    	while i > 0:
-    		if i == 2:
-    			i -= 1
-    		val = int(time[i])
-    		for d in digits:
-    			if d > val and d <= max_val[i]:
-    				time = time[:i] + str(d) + time[i+1:]
-    				# append min_digit after index i
-    				j = 4
-    				while j > i:
-    					if j != 2:
-    						time = time[:j] + str(min_digit) + time[j+1:]
-    					j -= 1
-    				return time
-    		i -= 1
-    				
-    	return min_digit + min_digit + ":" + min_digit + min_digit 
+        """
+        :type time: str
+        :rtype: str
+        
+        Simulate the clock going forward by one minute. 
+        Each time it moves forward, if all the digits are allowed, then return the current time.
+        """
+        HH, MM = time.split(":")
+        hh, mm = int(HH), int(MM)
+        allowed = set([hh/10, hh%10, mm/10, mm%10])
+        curr = hh*60 + mm
+        
+        def check(t):
+            hour = t / 60
+            minute = t % 60
+            digits = [hour/10, hour%10, minute/10, minute%10]
+            for d in digits:
+                if d not in allowed:
+                    return False
+            return True
+                    
+        for t in range(curr+1, 24*60):
+            if check(t):
+                return '{0:02d}'.format(t / 60) + ":" + '{0:02d}'.format(t % 60)
+        
+        for t in range(0, curr+1):
+            if check(t):
+                return '{0:02d}'.format(t / 60) + ":" + '{0:02d}'.format(t % 60)
+        return ""
 
 if __name__ == '__main__':
 	assert Solution().nextClosestTime("19:34") == "19:39"
