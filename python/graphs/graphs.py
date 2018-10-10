@@ -4,8 +4,9 @@ import heapq
 
 WHITE, GREY, BLACK = 0, 1, 2
 
+
 def bfs(G, s):
-	seen = set([s])	# color = {v: WHITE for v in G}
+	seen = set([s])  # color = {v: WHITE for v in G}
 	p = {s: None}
 	dist = {s: 0}
 	q = collections.deque([s])
@@ -169,7 +170,29 @@ def kosaraju(G):
 """Minimum Spanning Tree"""
 
 def kruskal(G, w, s):
-	pass
+	# parent = {}
+	# rank = {}
+
+	# def make_set(v):
+	# 	parent[v] = v
+	# 	rank[v] = 0
+
+	# def find(v):
+	# 	while parent[v] != v:
+	# 		v = parent[v]
+	# 	return parent[v]
+
+	# def union(u, v):
+	# 	root1 = find(u)
+	# 	root2 = find(v)
+
+
+	# mst = {make_set(v) for v in G}
+	# edges = sorted(w.keys(), key=lambda e: w[e])
+	# for u, v in edges:
+	pass	
+
+
 
 def prim(G, w, s):
 	pass
@@ -180,11 +203,81 @@ def prim(G, w, s):
 def bfs_sssp(G, s):
 	pass
 
-def dijkstra(G, s, w=None):
-	pass
+# O(V+E)
+def dag_sssp(G, s, w):
+	dist = {}
+	for v in G:
+		dist[v] = float('inf')
+	dist[s] = 0
+	ordered = topological_sort(G)
+	for u in ordered:
+		for v in G[u]:
+			dist[v] = min(dist[v], dist[u] + w[(u,v)])
+	return dist
 
-def dag_sssp(G, s, w=None):
-	pass
+
+# SSSP in general graphs with negative edges
+# O(VE)
+def belman_ford(G,s,w):
+	dist = {}
+	for v in G:
+		dist[v] = float('inf')
+	dist[s] = 0
+	for u in G:
+		for v in G[u]:
+			dist[v] = min(dist[v], dist[u] + w[(u,v)])
+	
+	for u in G:
+		for v in G[u]:
+			if dist[v] > dist[u] + w[(u,v)]:
+				return False 	# contains negative cycle
+	return dist
+
+# SSSP w/o negative weights
+# O(E log V)
+def dijkstra(G, s, w):
+	dist = {}
+	for v in G:
+		dist[v] = float('inf')
+	dist[s] = 0
+	S = set()
+	pq = [(dist[v],v) for v in G]
+	heapq.heapify(pq)
+	while pq:
+		dist_u, u = heapq.heappop(pq)
+		if u in S: break
+		S.add(u)
+		for v in G[u]:
+			dist[v] = in(dist[v], dist[u] + w[(u,v)])
+			heapq.heappush(pq, (dist[v], v))
+	return dist
+
+
+def dijkstra2(G, s, w):
+    dist = {s: 0}
+    entries = {}
+    pq = []
+    for v in G[s]:
+        d = w[s, v]
+        entry = [d, v, True]
+        dist[v] = d
+        entries[v] = entry
+        heappush(pq, entry)
+
+    while pq:
+        u_dist, u, valid = heappop(pq)
+        if valid:
+            for v in G[u]:
+                new_dist = u_dist + w[u, v]
+                if not v in dist or new_dist < dist[v]:
+                    dist[v] = new_dist
+                    entry = [new_dist, v, True]
+                    if v in entries:
+                        entries[v][2] = False
+                    entries[v] = entry
+                    heappush(pq, entry)
+
+    return dist
 
 """All pairs shortest path"""
 
@@ -195,7 +288,7 @@ def floyd_warshall(W):
 """ Intractability """
 
 def complement_graph(G):
-	pass
+	return {u: [v for v in G if u != v and v not in G[u]] for u in G}
 
 def clique_to_vertex_cover(G, k, vertex_cover):
 	pass
