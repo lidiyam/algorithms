@@ -1,6 +1,5 @@
 class Solution(object):
-    def twoSum(self, nums, target):
-        i = 0
+    def twoSum(self, nums, target, i):
         j = len(nums) - 1
         res = []
         while i < j:
@@ -21,14 +20,14 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        nums = sorted(nums2)
         result = []
+        nums = sorted(nums2)
         for i, num in enumerate(nums):
-            doubles = self.twoSum(nums[i+1:], -num)
+            doubles = self.twoSum(nums, -num, i+1)
             for two in doubles:
                 two.insert(0, num)
-                if two not in result:
-                    result.append(two)
+                result.append(two)
+            result = [[num].extend(two) for two in doubles]
         return result  
 
 if __name__ == '__main__':

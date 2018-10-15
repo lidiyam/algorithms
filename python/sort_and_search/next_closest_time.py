@@ -59,6 +59,22 @@ class Solution(object):
                 return '{0:02d}'.format(t / 60) + ":" + '{0:02d}'.format(t % 60)
         return ""
 
+    def nextClosestTime_2(self, time):
+        """
+        :type time: str
+        :rtype: str
+        """
+        h, m = time.split(":")
+        curr = int(h) * 60 + int(m)
+        result = None
+        for i in xrange(curr+1, curr+1441):
+            t = i % 1440
+            h, m = t // 60, t % 60
+            result = "%02d:%02d" % (h, m)
+            if set(result) <= set(time):
+                break
+        return result
+
 if __name__ == '__main__':
 	assert Solution().nextClosestTime("19:34") == "19:39"
 	assert Solution().nextClosestTime("23:59") == "22:22"
